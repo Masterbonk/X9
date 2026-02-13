@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">X9</string>
+    <string name="report_title_placeholder">Title...</string>
+    <string name="description_placeholder">Description...</string>
+
+    <string name="button_mild">Mild</string>
+    <string name="button_sever">Sever</string>
+    <string name="button_emergency">Emergency</string>
+    <string name="button_send">Send</string>
+
+    <string name="button_goto_report">New report</string>
+    <string name="button_goto_main">Back to main</string>
+
+
+
+
+    <string-array name="report_type_array">
+        <item>Broken traffic light</item>
+        <item>Car crash</item>
+        <item>Flooding</item>
+        <item>Speed camera</item>
+        <item>Blockage</item>
+        <item>Slippery road</item>
+    </string-array>
+
+</resources>
