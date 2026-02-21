@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_main"
+        android:enabled="true"
+        android:title="@string/fragment_button_main"/>
+    <item
+        android:id="@+id/fragment_create_report"
+        android:enabled="true"
+        android:title="@string/fragment_button_report"/>
+</menu>
