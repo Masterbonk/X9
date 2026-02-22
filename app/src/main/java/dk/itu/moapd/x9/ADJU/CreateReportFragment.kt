@@ -7,6 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import dk.itu.moapd.x9.ADJU.MainActivity.Companion.TAG
 import dk.itu.moapd.x9.ADJU.databinding.ReportActivityBinding
@@ -27,18 +32,55 @@ class CreateReportFragment : Fragment() {
         private const val TYPE = "Broken traffic light"
     }
 
+
+
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.report_title)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }*/
+
+        /*
+        //Found this from https://developer.android.com/develop/ui/views/components/spinner
+        val spinner: Spinner = findViewById(R.id.report_type)
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.report_type_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears.
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner.
+            spinner.adapter = adapter
+        }
+
+         */
+        binding = ReportActivityBinding.inflate(layoutInflater)
+
+        setupUI()
+
+        Log.d(TAG, "onCreateView() method called.")
+
+
         return inflater.inflate(R.layout.fragment_create_report, container, false)
+
     }
 
     private fun setupUI() =
         with(binding) {//button_mild id becomes buttonMild here
             buttonMild.setOnClickListener {
                 viewModel.setState(getString(R.string.button_mild))
+
                 //textViewMessage.text = getString(R.string.true_text)
             }
 
@@ -67,14 +109,6 @@ class CreateReportFragment : Fragment() {
                 }
             }
 
-            buttonGotoMain.setOnClickListener {
-                //val myIntent: Intent = Intent(this@CreateReportFragment, MainActivity::class.java)
-                //myIntent.putExtra("Title", reportTitle.text.toString()) //Optional parameters
-                //myIntent.putExtra("Type", reportType.selectedItem.toString()) //Optional parameters
-                //myIntent.putExtra("Description", description.text.toString()) //Optional parameters
-                //myIntent.putExtra("State", STATE) //Optional parameters
-                //this@ReportActivity.startActivity(myIntent)
-            }
         }
 
 

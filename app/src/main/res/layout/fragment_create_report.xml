@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/report_activity"
+    android:id="@+id/fragment_create_report"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateReportFragment"
@@ -96,17 +96,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_emergency" />
 
-    <Button
-        android:id="@+id/button_goto_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/button_goto_main"
-        android:textColor="@color/light_green"
-        tools:ignore="ButtonStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
 
 
 

@@ -2,10 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_main"
     android:id="@+id/nav_graph">
 
     <fragment
         android:id="@+id/fragment_main"
+        android:name="dk.itu.moapd.x9.ADJU.MainFragment"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_main_to_report"
@@ -14,10 +16,11 @@
 
     <fragment
         android:id="@+id/fragment_create_report"
-        tools:layout="@layout/fragment_main">
+        android:name="dk.itu.moapd.x9.ADJU.CreateReportFragment"
+        tools:layout="@layout/fragment_create_report">
         <action
             android:id="@+id/action_report_to_main"
-            app:destination="@id/fragment_create_report" />
+            app:destination="@id/fragment_main" />
     </fragment>
 
 </navigation>
