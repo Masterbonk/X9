@@ -14,13 +14,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import dk.itu.moapd.x9.ADJU.MainActivity.Companion.TAG
-import dk.itu.moapd.x9.ADJU.databinding.ReportActivityBinding
+import dk.itu.moapd.x9.ADJU.databinding.FragmentCreateReportBinding
 import kotlin.getValue
 
 
-class CreateReportFragment : Fragment() {
+class CreateReportFragment : Fragment(R.layout.fragment_create_report) {
 
-    private lateinit var binding: ReportActivityBinding
+    private var _binding: FragmentCreateReportBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: ReportViewModel by viewModels()
 
@@ -29,12 +30,7 @@ class CreateReportFragment : Fragment() {
         private const val STATE = "Mild"
         private const val TITLE = "Title"
         private const val DESCRIPTION = "Description"
-        private const val TYPE = "Broken traffic light"
     }
-
-
-
-
 
 
     override fun onCreateView(
@@ -47,7 +43,8 @@ class CreateReportFragment : Fragment() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }*/
+        }
+         */
 
         /*
         //Found this from https://developer.android.com/develop/ui/views/components/spinner
@@ -63,17 +60,15 @@ class CreateReportFragment : Fragment() {
             // Apply the adapter to the spinner.
             spinner.adapter = adapter
         }
-
          */
-        binding = ReportActivityBinding.inflate(layoutInflater)
 
+
+        _binding = FragmentCreateReportBinding.inflate(inflater, container, false)
         setupUI()
 
         Log.d(TAG, "onCreateView() method called.")
 
-
-        return inflater.inflate(R.layout.fragment_create_report, container, false)
-
+        return binding.root
     }
 
     private fun setupUI() =
@@ -95,21 +90,32 @@ class CreateReportFragment : Fragment() {
             }
 
             buttonSend.setOnClickListener {
-                if(reportTitle.text.toString() == "" || description.text.toString() == "" || reportTitle.text.length > 60) {
+                print("Running send")
+                if (reportTitle.text.toString() == "" || description.text.toString() == "" || reportTitle.text.length > 60) {
+                    showToast("Output invalid")
                     Log.d(TAG, "Output invalid")
                 } else {
+
                     viewModel.setTitle(reportTitle.text.toString())
-                    viewModel.setType(reportType.selectedItem.toString())
                     viewModel.setDescription(description.text.toString())
+
+                    buttonSend.setOnClickListener {
+                        showToast("Sending output now: \n Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE")
+                    }
+
                     Log.d(TAG, "Sending output now")
                     Log.d(
                         TAG,
-                        "Title: ${reportTitle.text}, Type: ${reportType.selectedItem}, Description: ${description.text}, State: $STATE"
+                        "Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE"
                     )
                 }
             }
 
         }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //_binding = null
+    }
 
 }
