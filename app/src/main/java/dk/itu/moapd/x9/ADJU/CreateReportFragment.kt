@@ -12,6 +12,7 @@ import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dk.itu.moapd.x9.ADJU.MainActivity.Companion.TAG
 import dk.itu.moapd.x9.ADJU.databinding.FragmentCreateReportBinding
@@ -23,8 +24,7 @@ class CreateReportFragment : Fragment(R.layout.fragment_create_report) {
     private var _binding: FragmentCreateReportBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ReportViewModel by viewModels()
-
+    private val viewModel: ReportViewModel by activityViewModels()
     companion object {
         private val TAG = MainActivity::class.qualifiedName
         private const val STATE = "Mild"
@@ -37,32 +37,6 @@ class CreateReportFragment : Fragment(R.layout.fragment_create_report) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.report_title)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-         */
-
-        /*
-        //Found this from https://developer.android.com/develop/ui/views/components/spinner
-        val spinner: Spinner = findViewById(R.id.report_type)
-        // Create an ArrayAdapter using the string array and a default spinner layout.
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.report_type_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
-            spinner.adapter = adapter
-        }
-         */
-
-
         _binding = FragmentCreateReportBinding.inflate(inflater, container, false)
         setupUI()
 
@@ -99,15 +73,18 @@ class CreateReportFragment : Fragment(R.layout.fragment_create_report) {
                     viewModel.setTitle(reportTitle.text.toString())
                     viewModel.setDescription(description.text.toString())
 
-                    buttonSend.setOnClickListener {
-                        showToast("Sending output now: \n Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE")
-                    }
+                    showToast("Sending output now: \n Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE")
 
                     Log.d(TAG, "Sending output now")
                     Log.d(
                         TAG,
                         "Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE"
                     )
+                    viewModel.addItem(ItemsModel(
+                        title = reportTitle.text.toString(),
+                        description = description.text.toString(),
+                        state = STATE
+                    ))
                 }
             }
 

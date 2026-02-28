@@ -13,6 +13,20 @@ class ReportViewModel : ViewModel() {
     private val _type = MutableLiveData<String>()
     private val _description = MutableLiveData<String>()
     private val _state = MutableLiveData<String>()
+
+    //ChatGPT helped with this part
+    private val _items = MutableLiveData<List<ItemsModel>>(emptyList())
+    val items: LiveData<List<ItemsModel>> = _items
+
+    fun addItem(item: ItemsModel) {
+        val current = _items.value.orEmpty().toMutableList()
+        current.add(item)
+        _items.value = current
+    }
+
+    fun setItems(list: List<ItemsModel>) {
+        _items.value = list
+    }
     /**
      * A `LiveData` which publicly exposes any update in the UI TextView.
      */
