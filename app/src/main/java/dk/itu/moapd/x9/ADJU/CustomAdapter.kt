@@ -25,7 +25,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import dk.itu.moapd.x9.ADJU.MainFragment.Companion.DUMMY_ITEM_COUNT
 import dk.itu.moapd.x9.ADJU.databinding.RowItemBinding
 
 
@@ -45,12 +44,11 @@ class CustomAdapter(
         private val TAG = CustomAdapter::class.qualifiedName
     }
 
-    private val items = ArrayList<ItemsModel>()
+    public val items = ArrayList<ItemsModel>()
 
     fun setItems(newItems: List<ItemsModel>) {
         items.clear()
         items.addAll(newItems)
-        notifyDataSetChanged()
     }
 
     /*private val items: List<ItemsModel> = createDummyData()

@@ -1,6 +1,7 @@
 package dk.itu.moapd.x9.ADJU
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,26 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -28,66 +49,74 @@ import kotlin.getValue
  * create an instance of this fragment.
  */
 class MainFragment : Fragment(R.layout.fragment_main) {
-    private val binding by viewBinding(FragmentMainBinding::bind)
-    //private lateinit var binding: FragmentMainBinding
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ReportViewModel by activityViewModels()
     private lateinit var adapt: CustomAdapter
-    companion object{
-        const val DUMMY_ITEM_COUNT = 20
-    }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?,
-    ) {
-        super.onViewCreated(view, savedInstanceState)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        val view = binding.root
+
         adapt = CustomAdapter(emptyList())
-        setupRecyclerView()
 
-        observeViewModel()
-
-
-    }
-
-
-
-
-    /**
-     * Set up the recycler view with a layout manager and an adapter.
-     */
-    private fun setupRecyclerView() =
-        with(binding.recyclerView) {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = adapt
-
-
-            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-                val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    bottomMargin = navBarHeight
-                }
-                insets
+        binding.composeView.apply {
+            //setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                LazyListScreen()
             }
         }
+        return view
+    }
 
-    private fun observeViewModel() {
-        viewModel.items.observe(viewLifecycleOwner) { list ->
-            adapt.setItems(list)
+    @Composable
+    fun LazyListScreen() {
+        val items by viewModel.items.observeAsState(emptyList())   // or observeAsState()
+
+        Scaffold(
+
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding)
+            ) {
+                items(items) { item ->
+                    RowItem(item)
+                }
+            }
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     /**
-     * Create a list of dummy data using the Faker library.
+     * Defines the application theme used by this Android app.
      *
-     * @return A list of dummy model objects.
+     * @param darkTheme Check if the device is in dark mode.
+     * @param dynamicColor Dynamic color is available on Android 12+.
+     * @param content Any components included in this component's [content] will be styled with this
+     *      style unless styled explicitly.
      */
-    private fun createDummyData(): List<ItemsModel> =
-        (1..DUMMY_ITEM_COUNT).map { index ->
-            ItemsModel(
-                title = "Number: $index",
-                description = "This is description | This is description | This is description | This is description | This is description | ",
-                state = "Sever",
-            )
-        }
+
+
+    private val LightColorScheme =
+        lightColorScheme(
+            background = Color(0xFFFFFBFE),
+            surface = Color(0xFFFFFBFE),
+            onPrimary = Color.White,
+            onSecondary = Color.White,
+            onTertiary = Color.White,
+            onBackground = Color(0xFF1C1B1F),
+            onSurface = Color(0xFF1C1B1F),
+        )
 }
 

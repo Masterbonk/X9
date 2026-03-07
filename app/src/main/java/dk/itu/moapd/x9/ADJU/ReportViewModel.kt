@@ -56,6 +56,4 @@ class ReportViewModel : ViewModel() {
     fun setState(text: String) {
         _state.value = text
     }
-
-
 }
