@@ -15,7 +15,6 @@
     <string name="fragment_button_report">Report</string>
 
 
-
     <string-array name="report_type_array">
         <item>Broken traffic light</item>
         <item>Car crash</item>

@@ -6,4 +6,5 @@
     </style>
 
     <style name="Theme.X9" parent="Base.Theme.X9" />
+    <style name="Theme.FirebaseAuthentication" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
