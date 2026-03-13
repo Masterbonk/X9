@@ -28,8 +28,6 @@ class CreateReportFragment : Fragment() {
     companion object {
         private val TAG = MainActivity::class.qualifiedName
         private const val STATE = "Mild"
-        private const val TITLE = "Title"
-        private const val DESCRIPTION = "Description"
     }
 
 
@@ -93,7 +91,7 @@ class CreateReportFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //_binding = null
+        _binding = null
     }
 
 }
