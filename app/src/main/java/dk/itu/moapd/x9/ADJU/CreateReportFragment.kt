@@ -19,7 +19,7 @@ import dk.itu.moapd.x9.ADJU.databinding.FragmentCreateReportBinding
 import kotlin.getValue
 
 
-class CreateReportFragment : Fragment(R.layout.fragment_create_report) {
+class CreateReportFragment : Fragment() {
 
     private var _binding: FragmentCreateReportBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +34,8 @@ class CreateReportFragment : Fragment(R.layout.fragment_create_report) {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCreateReportBinding.inflate(inflater, container, false)

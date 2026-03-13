@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController =
             (
-                    supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+                    fm.findFragmentById(R.id.fragment_container_view)
                             as NavHostFragment
                     ).navController
 

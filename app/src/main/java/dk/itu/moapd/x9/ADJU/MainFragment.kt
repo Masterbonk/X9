@@ -48,11 +48,10 @@ import kotlin.getValue
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ReportViewModel by activityViewModels()
-    private lateinit var adapt: CustomAdapter
 
 
     override fun onCreateView(
@@ -63,7 +62,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        adapt = CustomAdapter(emptyList())
+        //adapt = CustomAdapter(emptyList())
 
         binding.composeView.apply {
             //setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
