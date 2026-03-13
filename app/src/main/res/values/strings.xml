@@ -14,6 +14,8 @@
     <string name="fragment_button_main">Main</string>
     <string name="fragment_button_report">Report</string>
 
+    <string name="logout_text">Logout</string>
+
 
     <string-array name="report_type_array">
         <item>Broken traffic light</item>

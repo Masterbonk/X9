@@ -50,6 +50,13 @@ class MainActivity : AppCompatActivity() {
         // Initialize Firebase Auth.
         auth = FirebaseAuth.getInstance()
 
+        with(binding) {
+            logoutButton.setOnClickListener {
+                auth.signOut()
+                startLoginActivity()
+            }
+        }
+
         Log.d(TAG, "onCreate() method called.")
     }
 
