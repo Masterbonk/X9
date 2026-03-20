@@ -1,4 +1,4 @@
-package dk.itu.moapd.x9.ADJU
+package dk.itu.moapd.x9.ADJU.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,17 +8,18 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
+import dk.itu.moapd.x9.ADJU.R
+import dk.itu.moapd.x9.ADJU.model.TrafficReport
 
 @Composable
 fun RowItem(
-    model: ItemsModel,
+    model: TrafficReport,
     modifier: Modifier = Modifier
 ) {
     OutlinedCard(
-        modifier = modifier.padding(8.dp)
+        modifier = modifier.padding(dimensionResource(R.dimen.margin_standard))
     ) {
         Column {
             TextElem(model)
@@ -27,9 +28,9 @@ fun RowItem(
 }
 
 @Composable
-private fun TextElem(model: ItemsModel) {
+private fun TextElem(model: TrafficReport) {
     Column(
-        modifier = Modifier.padding(16.dp).fillMaxWidth()
+        modifier = Modifier.padding(dimensionResource(R.dimen.margin_medium)).fillMaxWidth()
     ) {
         Text(
             text = model.title,
@@ -43,7 +44,7 @@ private fun TextElem(model: ItemsModel) {
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.margin_medium))
         )
         Text(
             text = model.state,
@@ -51,7 +52,7 @@ private fun TextElem(model: ItemsModel) {
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.margin_medium))
         )
     }
 }

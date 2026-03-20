@@ -1,23 +1,17 @@
-package dk.itu.moapd.x9.ADJU
+package dk.itu.moapd.x9.ADJU.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import dk.itu.moapd.x9.ADJU.MainActivity.Companion.TAG
+import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.databinding.FragmentCreateReportBinding
-import kotlin.getValue
-
+import dk.itu.moapd.x9.ADJU.model.TrafficReport
+import dk.itu.moapd.x9.ADJU.showToast
+import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 
 class CreateReportFragment : Fragment() {
 
@@ -77,13 +71,15 @@ class CreateReportFragment : Fragment() {
                     Log.d(TAG, "Sending output now")
                     Log.d(
                         TAG,
-                        "Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE"
+                        "Title: ${reportTitle.text}, Description: ${description.text}, State: ${viewModel.state.value ?: "Mild"}"
                     )
-                    viewModel.addItem(ItemsModel(
-                        title = reportTitle.text.toString(),
-                        description = description.text.toString(),
-                        state = STATE
-                    ))
+                    viewModel.addItem(
+                        TrafficReport(
+                            title = reportTitle.text.toString(),
+                            description = description.text.toString(),
+                            state = viewModel.state.value ?: "Mild"
+                        )
+                    )
                 }
             }
 

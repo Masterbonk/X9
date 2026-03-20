@@ -1,7 +1,6 @@
-package dk.itu.moapd.x9.ADJU
+package dk.itu.moapd.x9.ADJU.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dk.itu.moapd.x9.ADJU.databinding.FragmentMainBinding
-import kotlin.getValue
-
+import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 
 /**
- * A simple [Fragment] subclass.
+ * A simple [androidx.fragment.app.Fragment] subclass.
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
@@ -57,7 +56,7 @@ class MainFragment : Fragment() {
 
         ) { innerPadding ->
             LazyColumn(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .fillMaxWidth()
                     .padding(innerPadding)
             ) {
@@ -72,7 +71,4 @@ class MainFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
-

@@ -1,16 +1,16 @@
-package dk.itu.moapd.x9.ADJU
+package dk.itu.moapd.x9.ADJU.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.x9.ADJU.view.LoginActivity
+import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.databinding.ActivityMainBinding
-
 
 class MainActivity : AppCompatActivity() {
 

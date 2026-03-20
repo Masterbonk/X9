@@ -1,15 +1,12 @@
-package dk.itu.moapd.x9.ADJU
+package dk.itu.moapd.x9.ADJU.view
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import dk.itu.moapd.x9.ADJU.R
 
 class LoginActivity : AppCompatActivity() {
     //Existing account: Email: Adj@itu.dk, password 123456789

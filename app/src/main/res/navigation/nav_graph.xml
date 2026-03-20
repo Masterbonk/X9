@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="dk.itu.moapd.x9.ADJU.MainFragment"
+        android:name="dk.itu.moapd.x9.ADJU.view.MainFragment"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_main_to_report"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment_create_report"
-        android:name="dk.itu.moapd.x9.ADJU.CreateReportFragment"
+        android:name="dk.itu.moapd.x9.ADJU.view.CreateReportFragment"
         tools:layout="@layout/fragment_create_report">
         <action
             android:id="@+id/action_report_to_main"
