@@ -21,7 +21,6 @@ class CreateReportFragment : Fragment() {
     private val viewModel: ReportViewModel by activityViewModels()
     companion object {
         private val TAG = MainActivity::class.qualifiedName
-        private const val STATE = "Mild"
     }
 
 
@@ -42,18 +41,14 @@ class CreateReportFragment : Fragment() {
         with(binding) {//button_mild id becomes buttonMild here
             buttonMild.setOnClickListener {
                 viewModel.setState(getString(R.string.button_mild))
-
-                //textViewMessage.text = getString(R.string.true_text)
             }
 
             buttonSever.setOnClickListener {
                 viewModel.setState(getString(R.string.button_sever))
-                //textViewMessage.text = getString(R.string.true_text)
             }
 
             buttonEmergency.setOnClickListener {
                 viewModel.setState(getString(R.string.button_emergency))
-                //textViewMessage.text = getString(R.string.true_text)
             }
 
             buttonSend.setOnClickListener {
@@ -63,22 +58,17 @@ class CreateReportFragment : Fragment() {
                     Log.d(TAG, "Output invalid")
                 } else {
 
-                    viewModel.setTitle(reportTitle.text.toString())
-                    viewModel.setDescription(description.text.toString())
-
-                    showToast("Sending output now: \n Title: ${reportTitle.text}, Description: ${description.text}, State: $STATE")
+                    showToast("Sending output now: \n Title: ${reportTitle.text}, Description: ${description.text}, State: ${viewModel.state.value}")
 
                     Log.d(TAG, "Sending output now")
                     Log.d(
                         TAG,
                         "Title: ${reportTitle.text}, Description: ${description.text}, State: ${viewModel.state.value ?: "Mild"}"
                     )
-                    viewModel.addItem(
-                        TrafficReport(
-                            title = reportTitle.text.toString(),
-                            description = description.text.toString(),
-                            state = viewModel.state.value ?: "Mild"
-                        )
+                    viewModel.insertReport(
+                        title = reportTitle.text.toString(),
+                        description = description.text.toString(),
+                        state = viewModel.state.value ?: "Mild"
                     )
                 }
             }

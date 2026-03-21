@@ -68,12 +68,10 @@ class LoginActivity : AppCompatActivity() {
         when (result.resultCode) {
             RESULT_OK -> {
                 // Successfully signed in.
-                //showSnackBar("User logged in the app.")
                 startMainActivity()
             }
             else -> {
                 // Sign in failed.
-                //showSnackBar("Authentication failed.")
             }
         }
     }
@@ -88,18 +86,4 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-
-    /**
-     * Displays a SnackBar to show a brief message about the clicked button.
-     *
-     * The SnackBar is created using the clicked button's information and is shown at the bottom of
-     * the screen.
-     *
-     * @param message The message to be displayed in the SnackBar.
-     */
-    /*private fun showSnackBar(message: String) {
-        window.decorView.rootView.showSnackBar(message)
-    }
-
-     */
 }

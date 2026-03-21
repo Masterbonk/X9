@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import dk.itu.moapd.x9.ADJU.R
-import dk.itu.moapd.x9.ADJU.model.TrafficReport
+import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 
 @Composable
 fun RowItem(
-    model: TrafficReport,
+    model: ReportUi,
     modifier: Modifier = Modifier
 ) {
     OutlinedCard(
@@ -28,7 +28,7 @@ fun RowItem(
 }
 
 @Composable
-private fun TextElem(model: TrafficReport) {
+private fun TextElem(model: ReportUi) {
     Column(
         modifier = Modifier.padding(dimensionResource(R.dimen.margin_medium)).fillMaxWidth()
     ) {

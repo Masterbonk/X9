@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.database
 import dk.itu.moapd.x9.ADJU.view.LoginActivity
 import dk.itu.moapd.x9.ADJU.R
+import dk.itu.moapd.x9.ADJU.core.DATABASE_URL
 import dk.itu.moapd.x9.ADJU.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     companion object {
-        public val TAG = MainActivity::class.qualifiedName
+        val TAG = MainActivity::class.qualifiedName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 
         val fm = supportFragmentManager
