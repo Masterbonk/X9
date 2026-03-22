@@ -16,6 +16,12 @@
 
     <string name="logout_text">Logout</string>
 
+    <string name="update_report_text">Update Report</string>
+    <string name="create_report_text">Create Report</string>
+    <string name="button_update">Update</string>
+
+
+
 
     <string-array name="report_type_array">
         <item>Broken traffic light</item>

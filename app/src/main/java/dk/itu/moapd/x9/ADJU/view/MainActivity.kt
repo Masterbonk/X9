@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
     companion object {
         val TAG = MainActivity::class.qualifiedName
     }
@@ -37,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
 
         val fm = supportFragmentManager
-
 
         val navController =
             (

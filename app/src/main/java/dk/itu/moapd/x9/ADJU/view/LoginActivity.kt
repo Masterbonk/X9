@@ -10,6 +10,7 @@ import dk.itu.moapd.x9.ADJU.R
 
 class LoginActivity : AppCompatActivity() {
     //Existing account: Email: Adj@itu.dk, password 123456789
+    //Existing account: Email: bob@itu.dk, password 123456789
 
     /**
      * This object launches a new activity and receives back some result data.

@@ -9,14 +9,15 @@
     tools:context=".view.CreateReportFragment"
     android:theme="@style/Theme.AppCompat">
 
+
     <TextView
-        android:id="@+id/make_title"
+        android:id="@+id/update_title"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
         android:textColor="@color/black"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:text="@string/create_report_text"
+        android:text="@string/update_report_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,12 +33,11 @@
         android:textColorHint="@color/black"
         android:hint="@string/report_title_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/make_title"
+        app:layout_constraintTop_toBottomOf="@+id/update_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-
-    <EditText
+        <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,10 +87,10 @@
         app:layout_constraintTop_toBottomOf="@+id/button_mild" />
 
     <Button
-        android:id="@+id/button_send"
+        android:id="@+id/button_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_send"
+        android:text="@string/button_update"
         android:textColor="@color/light_green"
         tools:ignore="ButtonStyle"
         app:layout_constraintStart_toStartOf="parent"

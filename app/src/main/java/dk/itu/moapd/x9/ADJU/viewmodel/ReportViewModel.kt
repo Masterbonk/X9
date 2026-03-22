@@ -91,6 +91,8 @@ class ReportViewModel (
         repository.deleteReport(userId = userId, key = key)
     }
 
+    var _selected_report_key = MutableLiveData<String>()
+
 
     private val _state = MutableLiveData<String>()
 
@@ -100,54 +102,4 @@ class ReportViewModel (
     fun setState(text: String) {
         _state.value = text
     }
-
-    /*
-    /**
-     * The current text showing in the main activity.
-     */
-
-    private val _title = MutableLiveData<String>()
-    private val _description = MutableLiveData<String>()
-    private val _state = MutableLiveData<String>()
-
-    //ChatGPT helped with this part
-    private val _items = MutableLiveData<List<TrafficReport>>(emptyList())
-    val items: LiveData<List<TrafficReport>> = _items
-
-    fun addItem(report: TrafficReport) {
-        val current = _items.value.orEmpty().toMutableList()
-        current.add(report)
-        _items.value = current
-        val userId = repository.currentUserId() ?: return
-        repository.addReport(userId, report.title, report.description, report.state)
-    }
-
-    fun setItems(list: List<TrafficReport>) {
-        _items.value = list
-    }
-    /**
-     * A `LiveData` which publicly exposes any update in the UI TextView.
-     */
-    val title: LiveData<String>
-        get() = _title
-    val description: LiveData<String>
-        get() = _description
-
-    /**
-     * This method will be executed when the user interacts with any UI component and it is
-     * necessary to update the text in the UI TextView. It sets the text into the LiveData instance.
-     *
-     * @param text A `String` to show in the UI TextView.
-     */
-    fun setTitle(text: String) {
-        _title.value = text
-    }
-    fun setDescription(text: String) {
-        _description.value = text
-    }
-    fun setState(text: String) {
-        _state.value = text
-    }
-
-     */
 }

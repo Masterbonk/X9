@@ -7,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.x9.ADJU.R
-import dk.itu.moapd.x9.ADJU.databinding.FragmentCreateReportBinding
-import dk.itu.moapd.x9.ADJU.model.TrafficReport
+import dk.itu.moapd.x9.ADJU.databinding.FragmentUpdateReportBinding
 import dk.itu.moapd.x9.ADJU.showToast
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
+import kotlin.getValue
 
-open class CreateReportFragment : Fragment() {
+class UpdateReportFragment() : Fragment() {
 
-    private var _binding: FragmentCreateReportBinding? = null
-    open val binding get() = _binding!!
+    private var _binding: FragmentUpdateReportBinding? = null
+
+    private val binding get() = _binding!!
 
     private val viewModel: ReportViewModel by activityViewModels()
     companion object {
@@ -29,7 +31,7 @@ open class CreateReportFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCreateReportBinding.inflate(inflater, container, false)
+        _binding = FragmentUpdateReportBinding.inflate(inflater, container, false)
         setupUI()
 
         Log.d(TAG, "onCreateView() method called.")
@@ -37,7 +39,7 @@ open class CreateReportFragment : Fragment() {
         return binding.root
     }
 
-    open fun setupUI() =
+    private fun setupUI() =
         with(binding) {//button_mild id becomes buttonMild here
             buttonMild.setOnClickListener {
                 viewModel.setState(getString(R.string.button_mild))
@@ -51,7 +53,7 @@ open class CreateReportFragment : Fragment() {
                 viewModel.setState(getString(R.string.button_emergency))
             }
 
-            buttonSend.setOnClickListener {
+            buttonUpdate.setOnClickListener {
                 print("Running send")
                 if (reportTitle.text.toString() == "" || description.text.toString() == "" || reportTitle.text.length > 60) {
                     showToast("Output invalid")
@@ -65,14 +67,18 @@ open class CreateReportFragment : Fragment() {
                         TAG,
                         "Title: ${reportTitle.text}, Description: ${description.text}, State: ${viewModel.state.value ?: "Mild"}"
                     )
-                    viewModel.insertReport(
+                    viewModel.updateReport(
                         title = reportTitle.text.toString(),
                         description = description.text.toString(),
-                        state = viewModel.state.value ?: "Mild"
+                        state = viewModel.state.value ?: "Mild",
+                        key = viewModel._selected_report_key.value ?: "null", //Should probably be something better
+                        createdAt = null
                     )
+
+                    findNavController().navigate(R.id.fragment_main)
+
                 }
             }
-
         }
 
     override fun onDestroyView() {

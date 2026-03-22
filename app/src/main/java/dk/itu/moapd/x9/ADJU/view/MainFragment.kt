@@ -4,19 +4,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.databinding.FragmentMainBinding
 import dk.itu.moapd.x9.ADJU.viewmodel.MainUiState
+import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.flow.StateFlow
 
@@ -79,8 +92,67 @@ class MainFragment : Fragment() {
         }
     }
 
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @Composable
+    fun RowItem(
+        model: ReportUi,
+        modifier: Modifier = Modifier
+    ) {
+        OutlinedCard(
+            modifier = modifier.padding(dimensionResource(R.dimen.margin_standard))
+        ) {
+            Column {
+                TextElem(model)
+            }
+        }
+    }
+
+    fun editReport(key: String){
+        viewModel._selected_report_key.value = key
+        findNavController().navigate(R.id.fragment_update_report)
+    }
+
+
+    @Composable
+    private fun TextElem(model: ReportUi) {
+        Column(
+            modifier = Modifier.padding(dimensionResource(R.dimen.margin_medium)).fillMaxWidth()
+        ) {
+
+            Text(
+                text = model.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleLarge
+            )
+            IconButton(onClick = { editReport(model.key) }) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit"
+                )
+            }
+            Text(
+                text = model.description,
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.margin_medium))
+            )
+            Text(
+                text = model.state,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.margin_medium))
+            )
+        }
     }
 }

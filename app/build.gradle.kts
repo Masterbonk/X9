@@ -60,6 +60,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.dotenv.kotlin)
+    implementation ("androidx.compose.material:material-icons-extended")
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.ui.auth)
     implementation(libs.firebase.ui.database)

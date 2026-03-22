@@ -23,4 +23,13 @@
             app:destination="@id/fragment_main" />
     </fragment>
 
+    <fragment
+        android:id="@+id/fragment_update_report"
+        android:name="dk.itu.moapd.x9.ADJU.view.UpdateReportFragment"
+        tools:layout="@layout/fragment_update_report">
+        <action
+            android:id="@+id/action_main_to_update"
+            app:destination="@id/fragment_main" />
+    </fragment>
+
 </navigation>
