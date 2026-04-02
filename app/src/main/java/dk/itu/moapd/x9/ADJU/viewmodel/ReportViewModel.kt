@@ -12,6 +12,7 @@ import dk.itu.moapd.x9.ADJU.model.TrafficReport
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.Long
 import kotlin.String
 
 data class  ReportUi(
@@ -20,6 +21,8 @@ data class  ReportUi(
     val description: String,
     val state: String,
     val createdAt: Long?,
+    val latitude: Double,
+    val longtitude: Double,
 )
 class ReportViewModel (
     private val repository: ReportRepository = ReportRepository()
@@ -30,6 +33,8 @@ class ReportViewModel (
     val uiState: StateFlow<MainUiState> = _uiState
 
     private var listener: ValueEventListener? = null
+
+
     
     init{
         observeReportList()
@@ -52,14 +57,14 @@ class ReportViewModel (
                         description = report.description,
                         state = report.state,
                         createdAt = report.createdAt,
+                        latitude = report.latitude,
+                        longtitude = report.longtitude,
                     )
                 }.sortedBy { it.createdAt ?: Long.MIN_VALUE }
                 _uiState.update { it.copy(reports = items)}
             }
 
-
             override fun onCancelled(error: DatabaseError) {
-
             }
         }
 
@@ -76,14 +81,14 @@ class ReportViewModel (
         }
     }
 
-    fun insertReport(title: String, description: String, state:String){
+    fun insertReport(title: String, description: String, state:String, latitude: Double, longtitude: Double){
         val userId = repository.currentUserId() ?: return
-        repository.addReport(userId = userId, _title = title, _description = description, _state = state)
+        repository.addReport(userId = userId, _title = title, _description = description, _state = state, _latitude = latitude, _longtitude = longtitude )
     }
 
-    fun updateReport(key: String, title: String, description: String, state:String, createdAt: Long?){
+    fun updateReport(key: String, title: String, description: String, state:String, createdAt: Long?, latitude: Double, longtitude: Double){
         val userId = repository.currentUserId() ?: return
-        repository.updateReport(userId = userId, key = key, _title = title, _description = description, _state = state, createdAt = createdAt)
+        repository.updateReport(userId = userId, key = key, _title = title, _description = description, _state = state, createdAt = createdAt, _latitude = latitude, _longtitude = longtitude)
     }
 
     fun deleteReport(key: String){
@@ -92,6 +97,9 @@ class ReportViewModel (
     }
 
     var _selected_report_key = MutableLiveData<String>()
+    var _selected_report_lat = MutableLiveData<Double>()
+    var _selected_report_lng = MutableLiveData<Double>()
+
 
 
     private val _state = MutableLiveData<String>()

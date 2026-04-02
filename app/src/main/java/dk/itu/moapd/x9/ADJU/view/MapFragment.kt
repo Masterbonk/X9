@@ -3,17 +3,43 @@ package dk.itu.moapd.x9.ADJU.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapType
+import com.google.maps.android.compose.rememberCameraPositionState
 import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.ADJU.databinding.FragmentMainBinding
@@ -21,6 +47,7 @@ import dk.itu.moapd.x9.ADJU.service.LocationService
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.jar.Manifest
 import kotlin.getValue
 
 class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -89,38 +116,15 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return ComposeView(requireContext()).apply {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        binding.composeView.apply {
+            //setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                MyLocationScaffold(
-                    sharedPreferences = sharedPreferences,
-                    onStartTracking = {
-                        pendingStartTracking = true
-                        startLocationService()
-                        if (locationServiceBound) {
-                            locationService?.subscribeToLocationUpdates()
-                            pendingStartTracking = false
-                        }
-                    },
-                    onStopTracking = {
-                        pendingStartTracking = false
-                        locationService?.unsubscribeToLocationUpdates()
-                        requireContext().stopService(
-                            Intent(requireContext(), LocationService::class.java)
-                        )
-                    },
-                    onCollectLocations = { onLocation ->
-                        onLocationCallback = onLocation
-                        collectJob?.cancel()
-                        startCollectingIfReady()
-                    },
-                )
-            }
-            val alreadyEnabledOnCreate = LocationTrackingPreferences.isTrackingEnabled(requireContext())
-            if (alreadyEnabledOnCreate) {
-                pendingStartTracking = true
-                startLocationService()
+                map()
             }
         }
+        return binding.root
     }
 
     /**
@@ -197,6 +201,70 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
                 collectJob = null
             } else {
                 startCollectingIfReady()
+            }
+        }
+    }
+
+    @Composable
+    private fun map(){
+        val context = LocalContext.current
+        //val snackbarHostState = remember { SnackbarHostState() }
+
+        val scope = rememberCoroutineScope()
+        val permissionDeniedMsg = stringResource(R.string.permission_denied_message)
+        val itu = remember { LatLng(55.6596, 12.5910) }
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(itu, 14f)
+        }
+
+        var hasPermission by remember {
+            mutableStateOf(
+                ActivityCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            )
+        }
+
+        val permissionLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            hasPermission = granted
+            if (!granted) {
+                /*scope.launch {
+                    snackbarHostState.showSnackbar(permissionDeniedMsg)
+                }*/
+            }
+        }
+
+        // Request permission as soon as the screen is shown (equivalent to the original map-ready flow).
+        LaunchedEffect(Unit) {
+            if (!hasPermission) {
+                permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+
+        val mapStyle = remember {
+            MapStyleOptions.loadRawResourceStyle(context, R.raw.maps_style)
+        }
+
+        Scaffold(
+            //snackbarHost = { SnackbarHost(snackbarHostState) },
+        ) { padding ->
+            GoogleMap(
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState,
+                contentPadding = PaddingValues(
+                    top = padding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding()
+                ),
+                properties = MapProperties(
+                    mapType = MapType.NORMAL,
+                    mapStyleOptions = mapStyle,
+                    isMyLocationEnabled = hasPermission,
+                ),
+            ) {
+
             }
         }
     }

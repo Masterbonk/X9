@@ -23,6 +23,9 @@ uiTooling = "1.10.5"
 ui = "1.10.5"
 dotenvKotlin = "6.5.1"
 servicesLocation = "21.3.0"
+mapsCompose = "8.0.1"
+secretsGradle = "2.0.1"
+playServicesMaps = "20.0.0"
 
 
 [libraries]
@@ -54,10 +57,13 @@ firebase-ui-database = { module = "com.firebaseui:firebase-ui-database", version
 firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenvKotlin" }
 google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "servicesLocation" }
+maps-compose = { group = "com.google.maps.android", name="maps-compose", version.ref = "mapsCompose" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradle"}
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 

@@ -1,13 +1,17 @@
 package dk.itu.moapd.x9.ADJU.data
 
 import android.R
+import androidx.compose.runtime.LaunchedEffect
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.database
 import dk.itu.moapd.x9.ADJU.core.DATABASE_URL
+import dk.itu.moapd.x9.ADJU.mapper.fieldsFromLocation
+import dk.itu.moapd.x9.ADJU.model.CurrentLocation
 import dk.itu.moapd.x9.ADJU.model.TrafficReport
+import dk.itu.moapd.x9.ADJU.state.rememberTrackingEnabledState
 
 //Code taken from https://github.com/fabricionarcizo/moapd2026/blob/main/lecture08/08-2_RealtimeDatabase-MDC/app/src/main/java/dk/itu/moapd/realtimedatabase/data/repository/DummyRepository.kt
 class ReportRepository(
@@ -34,13 +38,16 @@ class ReportRepository(
         .child(userId)
         .orderByChild(CHILD_CREATED_AT)
 
-    fun addReport(userId: String, _title: String, _description: String, _state: String, now: Long = System.currentTimeMillis()) {
+    fun addReport(userId: String, _title: String, _description: String, _state: String, now: Long = System.currentTimeMillis(), _latitude: Double, _longtitude: Double) {
         val key = root
             .child(PATH_REPORT)
             .child(userId)
             .push()
             .key ?: return
-        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = now, updatedAt = now)
+
+
+
+        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = now, updatedAt = now, latitude = _latitude, longtitude = _longtitude)
         root
             .child(PATH_REPORT)
             .child(userId)
@@ -48,8 +55,8 @@ class ReportRepository(
             .setValue(report)
     }
 
-    fun updateReport(userId: String, key: String, _title: String, _description: String, _state: String, createdAt: Long?, now: Long = System.currentTimeMillis()) {
-        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = createdAt, updatedAt = now)
+    fun updateReport(userId: String, key: String, _title: String, _description: String, _state: String, createdAt: Long?, now: Long = System.currentTimeMillis(), _latitude: Double, _longtitude: Double) {
+        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = createdAt, updatedAt = now, latitude = _latitude, longtitude = _longtitude)
         root
             .child(PATH_REPORT)
             .child(userId)

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.secrets.gradle)
     alias(libs.plugins.google.services)
 }
 
@@ -66,6 +67,8 @@ dependencies {
     implementation(libs.firebase.ui.database)
     implementation(libs.androidx.ui)
     implementation(libs.google.play.services.location)
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

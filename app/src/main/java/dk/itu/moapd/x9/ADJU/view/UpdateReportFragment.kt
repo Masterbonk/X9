@@ -72,7 +72,9 @@ class UpdateReportFragment() : Fragment() {
                         description = description.text.toString(),
                         state = viewModel.state.value ?: "Mild",
                         key = viewModel._selected_report_key.value ?: "null", //Should probably be something better
-                        createdAt = null
+                        createdAt = null,
+                        latitude = viewModel._selected_report_lat.value ?: 0.0,
+                        longtitude = viewModel._selected_report_lng.value ?: 0.0,
                     )
 
                     findNavController().navigate(R.id.fragment_main)

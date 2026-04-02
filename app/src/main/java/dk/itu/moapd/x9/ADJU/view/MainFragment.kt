@@ -76,8 +76,8 @@ class MainFragment : Fragment() {
     @Composable
     fun LazyListScreen(
         uiState: StateFlow<MainUiState>,
-        onInsert: (title: String, description: String, state: String) -> Unit,
-        onUpdate: (key: String, title: String, description: String, state: String, createdAt: Long?) -> Unit,
+        onInsert: (title: String, description: String, state: String, latitude: Double, longtitude: Double) -> Unit,
+        onUpdate: (key: String, title: String, description: String, state: String, createdAt: Long?, latitude: Double, longtitude: Double) -> Unit,
         onDelete: (key: String) -> Unit,
     ) {
         val state by uiState.collectAsState()
@@ -119,8 +119,10 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun editReport(key: String){
+    fun editReport(key: String, lat: Double, lng: Double){
         viewModel._selected_report_key.value = key
+        viewModel._selected_report_lat.value = lat
+        viewModel._selected_report_lng.value = lng
         findNavController().navigate(R.id.fragment_update_report)
     }
 
@@ -147,7 +149,7 @@ class MainFragment : Fragment() {
                     style = MaterialTheme.typography.titleLarge
                 )
                 Column() {
-                    IconButton(onClick = { editReport(model.key) }) {
+                    IconButton(onClick = { editReport(model.key, model.latitude, model.longtitude) }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit"
