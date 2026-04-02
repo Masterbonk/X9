@@ -1,11 +1,13 @@
 package dk.itu.moapd.x9.ADJU.viewmodel
 
 import android.R
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import dk.itu.moapd.x9.ADJU.data.ReportRepository
 import dk.itu.moapd.x9.ADJU.model.TrafficReport
@@ -34,7 +36,8 @@ class ReportViewModel (
 
     private var listener: ValueEventListener? = null
 
-
+    private val _reports = MutableStateFlow<List<TrafficReport>>(emptyList())
+    val reports: StateFlow<List<TrafficReport>> = _reports
     
     init{
         observeReportList()
@@ -72,6 +75,32 @@ class ReportViewModel (
         query.addValueEventListener(valueListener)
     }
 
+    fun getReportList(){
+        val userId = repository.currentUserId() ?: return
+        _uiState.update { it.copy(userId = userId)}
+
+        val query = repository.reportQuery(userId)
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val list = mutableListOf<TrafficReport>()
+
+                for (child in snapshot.children) {
+                    val report = child.getValue(TrafficReport::class.java)
+                    if (report != null) {
+                        list.add(report)
+                    }
+                }
+
+                _reports.value = list
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Reports", "Error: ${error.message}")
+            }
+        })
+
+    }
+
     override fun onCleared() {
         super.onCleared()
         val userId = repository.currentUserId()
@@ -99,6 +128,7 @@ class ReportViewModel (
     var _selected_report_key = MutableLiveData<String>()
     var _selected_report_lat = MutableLiveData<Double>()
     var _selected_report_lng = MutableLiveData<Double>()
+    var _selected_report_title = MutableLiveData<String>()
 
 
 

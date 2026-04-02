@@ -126,8 +126,11 @@ class MainFragment : Fragment() {
         findNavController().navigate(R.id.fragment_update_report)
     }
 
-    fun goToMap(/*key: String*/){
+    fun goToMap(lat: Double, lng: Double, title: String){
         //viewModel._selected_report_key.value = key
+        viewModel._selected_report_lat.value = lat
+        viewModel._selected_report_lng.value = lng
+        viewModel._selected_report_title.value = title
         findNavController().navigate(R.id.fragment_map)
     }
 
@@ -154,7 +157,7 @@ class MainFragment : Fragment() {
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit"
                     )}
-                    IconButton(onClick = { goToMap() }) {
+                    IconButton(onClick = { goToMap(model.latitude, model.longtitude, model.title) }) {
                         Icon(
                             imageVector = Icons.Default.Map,
                             contentDescription = "Map"

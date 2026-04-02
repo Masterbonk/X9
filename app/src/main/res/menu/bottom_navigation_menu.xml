@@ -5,7 +5,15 @@
         android:enabled="true"
         android:title="@string/fragment_button_main"/>
     <item
+        android:id="@+id/fragment_map"
+        android:enabled="true"
+        android:title="@string/map_navigation"/>
+    <item
         android:id="@+id/fragment_create_report"
         android:enabled="true"
         android:title="@string/fragment_button_report"/>
+    <item
+        android:id="@+id/fragment_update_report"
+        android:enabled="true"
+        android:title="@string/edit_report_navigation"/>
 </menu>

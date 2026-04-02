@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,11 +41,14 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.ADJU.databinding.FragmentMainBinding
 import dk.itu.moapd.x9.ADJU.service.LocationService
+import dk.itu.moapd.x9.ADJU.view.CreateReportFragment.Companion.TAG
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -151,6 +156,8 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
             Context.BIND_AUTO_CREATE
         )
 
+        viewModel.getReportList()
+
         val alreadyEnabled = LocationTrackingPreferences.isTrackingEnabled(requireContext())
         if (alreadyEnabled) {
             pendingStartTracking = true
@@ -210,11 +217,15 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
         val context = LocalContext.current
         //val snackbarHostState = remember { SnackbarHostState() }
 
+
+
         val scope = rememberCoroutineScope()
         val permissionDeniedMsg = stringResource(R.string.permission_denied_message)
-        val itu = remember { LatLng(55.6596, 12.5910) }
+
+        val startLocation = remember { LatLng(viewModel._selected_report_lat.value ?: 55.6596, viewModel._selected_report_lng.value ?: 12.5910) }
+
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(itu, 14f)
+            position = CameraPosition.fromLatLngZoom(startLocation, 14f)
         }
 
         var hasPermission by remember {
@@ -248,6 +259,8 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
             MapStyleOptions.loadRawResourceStyle(context, R.raw.maps_style)
         }
 
+        val reports by viewModel.reports.collectAsState()
+
         Scaffold(
             //snackbarHost = { SnackbarHost(snackbarHostState) },
         ) { padding ->
@@ -264,7 +277,15 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
                     isMyLocationEnabled = hasPermission,
                 ),
             ) {
-
+                reports.forEach { report ->
+                    Log.e(TAG, "Made one report marker")
+                    Marker(
+                        state = MarkerState(
+                            position = LatLng(report.latitude,report.longtitude)
+                        ),
+                        title = report.title
+                    )
+                }
             }
         }
     }
