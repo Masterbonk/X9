@@ -123,7 +123,7 @@ class MainFragment : Fragment() {
         viewModel._selected_report_key.value = key
         viewModel._selected_report_lat.value = lat
         viewModel._selected_report_lng.value = lng
-        findNavController().navigate(R.id.fragment_update_report)
+        findNavController().navigate(R.id.action_main_to_update)
     }
 
     fun goToMap(lat: Double, lng: Double, title: String){
@@ -131,7 +131,7 @@ class MainFragment : Fragment() {
         viewModel._selected_report_lat.value = lat
         viewModel._selected_report_lng.value = lng
         viewModel._selected_report_title.value = title
-        findNavController().navigate(R.id.fragment_map)
+        findNavController().navigate(R.id.action_main_to_map)
     }
 
 

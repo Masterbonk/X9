@@ -77,7 +77,7 @@ class UpdateReportFragment() : Fragment() {
                         longtitude = viewModel._selected_report_lng.value ?: 0.0,
                     )
 
-                    findNavController().navigate(R.id.fragment_main)
+                    findNavController().navigate(R.id.action_report_to_main)
 
                 }
             }

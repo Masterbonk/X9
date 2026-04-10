@@ -11,25 +11,20 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_main_to_report"
-            app:destination="@id/fragment_create_report" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/fragment_create_report"
-        android:name="dk.itu.moapd.x9.ADJU.view.CreateReportFragment"
-        tools:layout="@layout/fragment_create_report">
+            app:destination="@id/fragment_create_report"
+            app:popUpTo="@+id/fragment_main"
+            app:popUpToInclusive="true"/>
         <action
-            android:id="@+id/action_report_to_main"
-            app:destination="@id/fragment_main" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/fragment_update_report"
-        android:name="dk.itu.moapd.x9.ADJU.view.UpdateReportFragment"
-        tools:layout="@layout/fragment_update_report">
+            android:id="@+id/action_main_to_map"
+            app:destination="@id/fragment_map"
+            app:popUpTo="@+id/fragment_main"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_main_to_update"
-            app:destination="@id/fragment_main" />
+            app:destination="@id/fragment_update_report"
+            app:popUpTo="@+id/fragment_main"
+            app:popUpToInclusive="true"/>
+
     </fragment>
 
     <fragment
@@ -38,7 +33,33 @@
         tools:layout="@layout/fragment_map">
         <action
             android:id="@+id/action_map_to_main"
-            app:destination="@id/fragment_main" />
+            app:destination="@id/fragment_main"
+            app:popUpTo="@+id/fragment_map"
+            app:popUpToInclusive="true"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_create_report"
+        android:name="dk.itu.moapd.x9.ADJU.view.CreateReportFragment"
+        tools:layout="@layout/fragment_create_report">
+        <action
+            android:id="@+id/action_report_to_main"
+            app:destination="@id/fragment_main"
+            app:popUpTo="@+id/fragment_create_report"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_update_report"
+        android:name="dk.itu.moapd.x9.ADJU.view.UpdateReportFragment"
+        tools:layout="@layout/fragment_update_report">
+        <action
+            android:id="@+id/action_update_to_main"
+            app:destination="@id/fragment_main"
+            app:popUpTo="@+id/fragment_update_report"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+
 
 </navigation>

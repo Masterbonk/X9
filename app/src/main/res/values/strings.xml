@@ -35,8 +35,17 @@
     <string name="notification_title">Tracking Location</string>
     <string name="notification_text">Location updates are active</string>
 
+    <string name="map_navigation">Map</string>
+    <string name="edit_report_navigation">Edit report</string>
 
 
+    <string
+        name="google_maps_key"
+        templateMergeStrategy="preserve"
+        translatable="false">AIzaSyBDhSuW1fdl2C4vtr62CIHQPr7_5BpT_M8</string>
+
+
+    <string name="permission_denied_message">Location permission is required to track your location</string>
 
     <string-array name="report_type_array">
         <item>Broken traffic light</item>
