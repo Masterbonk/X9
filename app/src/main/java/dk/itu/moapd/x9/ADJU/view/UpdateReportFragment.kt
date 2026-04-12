@@ -75,6 +75,7 @@ class UpdateReportFragment() : Fragment() {
                         createdAt = null,
                         latitude = viewModel._selected_report_lat.value ?: 0.0,
                         longtitude = viewModel._selected_report_lng.value ?: 0.0,
+                        imageName = viewModel._selected_report_filename.value ?: "",
                     )
 
                     findNavController().navigate(R.id.action_report_to_main)

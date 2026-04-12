@@ -11,4 +11,5 @@ data class TrafficReport(
     val updatedAt: Long? = null,
     val latitude: Double = 0.0,
     val longtitude: Double = 0.0,
+    val image: String = "",
 )

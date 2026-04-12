@@ -1,17 +1,22 @@
 package dk.itu.moapd.x9.ADJU.data
 
 import android.R
+import android.net.Uri
 import androidx.compose.runtime.LaunchedEffect
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.database
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.storage
 import dk.itu.moapd.x9.ADJU.core.DATABASE_URL
 import dk.itu.moapd.x9.ADJU.mapper.fieldsFromLocation
 import dk.itu.moapd.x9.ADJU.model.CurrentLocation
 import dk.itu.moapd.x9.ADJU.model.TrafficReport
 import dk.itu.moapd.x9.ADJU.state.rememberTrackingEnabledState
+import java.util.UUID
 
 //Code taken from https://github.com/fabricionarcizo/moapd2026/blob/main/lecture08/08-2_RealtimeDatabase-MDC/app/src/main/java/dk/itu/moapd/realtimedatabase/data/repository/DummyRepository.kt
 class ReportRepository(
@@ -38,16 +43,19 @@ class ReportRepository(
         .child(userId)
         .orderByChild(CHILD_CREATED_AT)
 
-    fun addReport(userId: String, _title: String, _description: String, _state: String, now: Long = System.currentTimeMillis(), _latitude: Double, _longtitude: Double) {
+    fun addReport(userId: String, _title: String, _description: String, _state: String, now: Long = System.currentTimeMillis(), _latitude: Double, _longtitude: Double, _image: Uri) {
         val key = root
             .child(PATH_REPORT)
             .child(userId)
             .push()
             .key ?: return
 
+        //Uploading image to storage
+        val filename = UUID.randomUUID().toString()
+        val remotePath = "images/$userId/$filename"
+        uploadImageToStorage(_image, remotePath)
 
-
-        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = now, updatedAt = now, latitude = _latitude, longtitude = _longtitude)
+        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = now, updatedAt = now, latitude = _latitude, longtitude = _longtitude, image = filename)
         root
             .child(PATH_REPORT)
             .child(userId)
@@ -55,8 +63,8 @@ class ReportRepository(
             .setValue(report)
     }
 
-    fun updateReport(userId: String, key: String, _title: String, _description: String, _state: String, createdAt: Long?, now: Long = System.currentTimeMillis(), _latitude: Double, _longtitude: Double) {
-        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = createdAt, updatedAt = now, latitude = _latitude, longtitude = _longtitude)
+    fun updateReport(userId: String, key: String, _title: String, _description: String, _state: String, createdAt: Long?, now: Long = System.currentTimeMillis(), _latitude: Double, _longtitude: Double, filename: String) {
+        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = createdAt, updatedAt = now, latitude = _latitude, longtitude = _longtitude, image = filename)
         root
             .child(PATH_REPORT)
             .child(userId)
@@ -70,5 +78,17 @@ class ReportRepository(
             .child(userId)
             .child(key)
             .removeValue()
+    }
+
+    private fun uploadImageToStorage(_image: Uri, remotePath: String) : Task<Uri>{
+
+        val ref: StorageReference = storage.reference.child(remotePath)
+
+        return ref.putFile(_image).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                throw (task.exception ?: Exception("Upload failed"))
+            }
+            ref.downloadUrl
+        }
     }
 }

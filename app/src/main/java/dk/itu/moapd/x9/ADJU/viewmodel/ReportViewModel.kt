@@ -1,6 +1,7 @@
 package dk.itu.moapd.x9.ADJU.viewmodel
 
 import android.R
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +26,7 @@ data class  ReportUi(
     val createdAt: Long?,
     val latitude: Double,
     val longtitude: Double,
+    val filename: String,
 )
 class ReportViewModel (
     private val repository: ReportRepository = ReportRepository()
@@ -62,6 +64,7 @@ class ReportViewModel (
                         createdAt = report.createdAt,
                         latitude = report.latitude,
                         longtitude = report.longtitude,
+                        filename = report.image
                     )
                 }.sortedBy { it.createdAt ?: Long.MIN_VALUE }
                 _uiState.update { it.copy(reports = items)}
@@ -110,14 +113,14 @@ class ReportViewModel (
         }
     }
 
-    fun insertReport(title: String, description: String, state:String, latitude: Double, longtitude: Double){
+    fun insertReport(title: String, description: String, state:String, latitude: Double, longtitude: Double, image: Uri){
         val userId = repository.currentUserId() ?: return
-        repository.addReport(userId = userId, _title = title, _description = description, _state = state, _latitude = latitude, _longtitude = longtitude )
+        repository.addReport(userId = userId, _title = title, _description = description, _state = state, _latitude = latitude, _longtitude = longtitude, _image = image)
     }
 
-    fun updateReport(key: String, title: String, description: String, state:String, createdAt: Long?, latitude: Double, longtitude: Double){
+    fun updateReport(key: String, title: String, description: String, state:String, createdAt: Long?, latitude: Double, longtitude: Double, imageName: String){
         val userId = repository.currentUserId() ?: return
-        repository.updateReport(userId = userId, key = key, _title = title, _description = description, _state = state, createdAt = createdAt, _latitude = latitude, _longtitude = longtitude)
+        repository.updateReport(userId = userId, key = key, _title = title, _description = description, _state = state, createdAt = createdAt, _latitude = latitude, _longtitude = longtitude, filename = imageName)
     }
 
     fun deleteReport(key: String){
@@ -129,6 +132,8 @@ class ReportViewModel (
     var _selected_report_lat = MutableLiveData<Double>()
     var _selected_report_lng = MutableLiveData<Double>()
     var _selected_report_title = MutableLiveData<String>()
+    var _selected_report_filename = MutableLiveData<String>()
+
 
 
 

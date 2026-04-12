@@ -1,5 +1,6 @@
 package dk.itu.moapd.x9.ADJU.view
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ import dk.itu.moapd.x9.ADJU.viewmodel.MainUiState
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.js.ExperimentalJsFileName
 
 /**
  * A simple [androidx.fragment.app.Fragment] subclass.
@@ -76,8 +78,8 @@ class MainFragment : Fragment() {
     @Composable
     fun LazyListScreen(
         uiState: StateFlow<MainUiState>,
-        onInsert: (title: String, description: String, state: String, latitude: Double, longtitude: Double) -> Unit,
-        onUpdate: (key: String, title: String, description: String, state: String, createdAt: Long?, latitude: Double, longtitude: Double) -> Unit,
+        onInsert: (title: String, description: String, state: String, latitude: Double, longtitude: Double, image: Uri) -> Unit,
+        onUpdate: (key: String, title: String, description: String, state: String, createdAt: Long?, latitude: Double, longtitude: Double, filename: String) -> Unit,
         onDelete: (key: String) -> Unit,
     ) {
         val state by uiState.collectAsState()
@@ -119,10 +121,11 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun editReport(key: String, lat: Double, lng: Double){
+    fun editReport(key: String, lat: Double, lng: Double, fileName: String){
         viewModel._selected_report_key.value = key
         viewModel._selected_report_lat.value = lat
         viewModel._selected_report_lng.value = lng
+        viewModel._selected_report_filename.value = fileName
         findNavController().navigate(R.id.action_main_to_update)
     }
 
@@ -152,7 +155,7 @@ class MainFragment : Fragment() {
                     style = MaterialTheme.typography.titleLarge
                 )
                 Column() {
-                    IconButton(onClick = { editReport(model.key, model.latitude, model.longtitude) }) {
+                    IconButton(onClick = { editReport(model.key, model.latitude, model.longtitude, model.filename) }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit"

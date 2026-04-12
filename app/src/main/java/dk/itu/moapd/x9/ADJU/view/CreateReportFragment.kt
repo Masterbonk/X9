@@ -109,6 +109,10 @@ open class CreateReportFragment : Fragment() {
             buttonTakePic.setOnClickListener {
                 //Get permission & take picture
                 checkCameraPermissionAndOpen()
+
+                if (capturedImageUri != null){ //Not working ;(
+                    binding.picture.setImageURI(capturedImageUri)
+                }
             }
 
             buttonSend.setOnClickListener {
@@ -187,7 +191,8 @@ open class CreateReportFragment : Fragment() {
         description = binding.description.text.toString(),
         state = viewModel.state.value ?: "Mild",
         latitude = lat,
-        longtitude = lng
+        longtitude = lng,
+        image = capturedImageUri ?: Uri.EMPTY,
         )
     }
 
