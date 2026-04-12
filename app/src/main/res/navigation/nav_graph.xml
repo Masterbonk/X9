@@ -59,7 +59,4 @@
             app:popUpTo="@+id/fragment_update_report"
             app:popUpToInclusive="true"/>
     </fragment>
-
-
-
 </navigation>

@@ -38,6 +38,8 @@
     <string name="map_navigation">Map</string>
     <string name="edit_report_navigation">Edit report</string>
 
+    <string name="take_pic_button_text">Take picture</string>
+
 
     <string
         name="google_maps_key"

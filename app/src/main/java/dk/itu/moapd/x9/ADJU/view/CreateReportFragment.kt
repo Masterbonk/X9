@@ -1,24 +1,29 @@
 package dk.itu.moapd.x9.ADJU.view
 
+
+import android.Manifest
+import android.app.Activity
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.LocationServices
 import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.databinding.FragmentCreateReportBinding
-import dk.itu.moapd.x9.ADJU.model.TrafficReport
 import dk.itu.moapd.x9.ADJU.showToast
-import dk.itu.moapd.x9.ADJU.view.MainActivity.Companion.TAG
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
+
 
 open class CreateReportFragment : Fragment() {
 
@@ -27,6 +32,7 @@ open class CreateReportFragment : Fragment() {
 
     private var pendingLocationRequest = false
 
+    //Get permission for this location
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -34,6 +40,35 @@ open class CreateReportFragment : Fragment() {
             getCurrentLocation()
         }
     }
+
+    private var capturedImageUri: Uri? = null
+
+    private val requestCameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            launchCameraIntent(
+                context = requireContext(),
+                onUriCreated = { uri -> capturedImageUri = uri },
+                onLaunch = { intent -> cameraLauncher.launch(intent) },
+            )
+        } else {
+            showToast("Camera permission required")
+        }
+    }
+
+    private val cameraLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // Image successfully captured
+            Log.d("Camera", "Image URI: $capturedImageUri")
+
+        } else {
+            Log.d("Camera", "Camera cancelled")
+        }
+    }
+
     private val viewModel: ReportViewModel by activityViewModels()
 
     companion object {
@@ -46,7 +81,10 @@ open class CreateReportFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         _binding = FragmentCreateReportBinding.inflate(inflater, container, false)
+
         setupUI()
 
         Log.d(TAG, "onCreateView() method called.")
@@ -66,6 +104,11 @@ open class CreateReportFragment : Fragment() {
 
             buttonEmergency.setOnClickListener {
                 viewModel.setState(getString(R.string.button_emergency))
+            }
+
+            buttonTakePic.setOnClickListener {
+                //Get permission & take picture
+                checkCameraPermissionAndOpen()
             }
 
             buttonSend.setOnClickListener {
@@ -89,7 +132,7 @@ open class CreateReportFragment : Fragment() {
 
         val hasPermission = ContextCompat.checkSelfPermission(
             context,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
         if (!hasPermission) {
@@ -119,19 +162,19 @@ open class CreateReportFragment : Fragment() {
 
         var hasPermission = ContextCompat.checkSelfPermission(
             context,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
         if (hasPermission) {
             getCurrentLocation()
         } else {
             pendingLocationRequest = true
-            permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
 
         hasPermission = ContextCompat.checkSelfPermission(
             context,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
         if (!hasPermission){
             showToast("Need location to upload report")
@@ -146,6 +189,52 @@ open class CreateReportFragment : Fragment() {
         latitude = lat,
         longtitude = lng
         )
+    }
+
+    /**
+     * Launches the camera intent to capture a photo.
+     *
+     * @param context The context of the application.
+     * @param onUriCreated The callback to be invoked when the URI is created.
+     * @param onLaunch The callback to be invoked when the camera intent is launched.
+     */
+    private fun launchCameraIntent(
+        context: Context,
+        onUriCreated: (Uri) -> Unit,
+        onLaunch: (Intent) -> Unit,
+    ) {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (cameraIntent.resolveActivity(context.packageManager) == null) return
+
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.TITLE, "ML Kit")
+        }
+
+        val uri = context.contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            values
+        ) ?: return
+
+        onUriCreated(uri)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        onLaunch(cameraIntent)
+    }
+
+    private fun checkCameraPermissionAndOpen() {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            android.Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (hasPermission) {
+            launchCameraIntent(
+                context = requireContext(),
+                onUriCreated = { uri -> capturedImageUri = uri },
+                onLaunch = { intent -> cameraLauncher.launch(intent) },
+            )
+        } else {
+            requestCameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+        }
     }
 }
 
