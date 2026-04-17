@@ -55,7 +55,7 @@ class ReportRepository(
         val remotePath = "images/$userId/$filename"
         uploadImageToStorage(_image, remotePath)
 
-        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = now, updatedAt = now, latitude = _latitude, longtitude = _longtitude, image = filename)
+        val report = TrafficReport(title = _title, description = _description, state = _state, createdAt = now, updatedAt = now, latitude = _latitude, longtitude = _longtitude, image = "$userId/$filename")
         root
             .child(PATH_REPORT)
             .child(userId)

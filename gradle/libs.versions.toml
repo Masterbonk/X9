@@ -27,8 +27,11 @@ mapsCompose = "8.0.1"
 secretsGradle = "2.0.1"
 playServicesMaps = "20.0.0"
 firebaseStorageKtx = "21.0.2"
+cameraX = "1.5.3"
 coilCompose = "2.7.0"
 objectDetection = "17.0.2"
+gson = "2.13.2"
+picasso = "2.71828"
 
 
 [libraries]
@@ -68,6 +71,8 @@ androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", versi
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraX" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 firebase-mlkit = { module = "com.google.mlkit:object-detection", version.ref = "objectDetection" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,14 +1,17 @@
 package dk.itu.moapd.x9.ADJU.view
 
+import android.R.attr.contentDescription
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,8 +26,11 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,12 +39,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import coil.compose.AsyncImage
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.databinding.FragmentMainBinding
 import dk.itu.moapd.x9.ADJU.viewmodel.MainUiState
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import kotlin.js.ExperimentalJsFileName
 
 /**
@@ -143,6 +154,7 @@ class MainFragment : Fragment() {
         Column(
             modifier = Modifier.padding(dimensionResource(R.dimen.margin_medium)).fillMaxWidth()
         ) {
+            FirebaseStorageImage("images/"+model.filename)
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -188,4 +200,38 @@ class MainFragment : Fragment() {
             )
         }
     }
+}
+
+private val downloadUrlCache = mutableMapOf<String, String>()
+@Composable
+private fun FirebaseStorageImage(
+    path: String,
+    modifier: Modifier = Modifier,
+) {
+    var url by remember(path) { mutableStateOf<String?>(downloadUrlCache[path]) }
+
+    LaunchedEffect(path) {
+        // If we already have a cached URL for this path, reuse it and skip the network call.
+        val cached = downloadUrlCache[path]
+        if (cached != null) {
+            url = cached
+            return@LaunchedEffect
+        }
+
+        ref.downloadUrl
+            .addOnSuccessListener { downloadUrl ->
+                val resolvedUrl = downloadUrl.toString()
+                downloadUrlCache[path] = resolvedUrl
+                url = resolvedUrl
+            }
+            .addOnFailureListener {
+                url = null
+            }
+    }
+
+    AsyncImage(
+        model = url,
+        contentDescription = "",
+        modifier = modifier.fillMaxSize(),
+    )
 }
