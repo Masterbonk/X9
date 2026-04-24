@@ -132,6 +132,7 @@ class ReportViewModel (
     var _selected_report_lat = MutableLiveData<Double>()
     var _selected_report_lng = MutableLiveData<Double>()
     var _selected_report_title = MutableLiveData<String>()
+    var _selected_report_description = MutableLiveData<String>()
     var _selected_report_filename = MutableLiveData<String>()
 
 

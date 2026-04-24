@@ -1,6 +1,8 @@
 package dk.itu.moapd.x9.ADJU.view
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,16 +33,26 @@ class UpdateReportFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentUpdateReportBinding.inflate(inflater, container, false)
         setupUI()
 
+        if (viewModel._selected_report_key.value == null){
+            findNavController().navigate(R.id.action_update_to_main)
+        }
+
+
         Log.d(TAG, "onCreateView() method called.")
+
 
         return binding.root
     }
 
     private fun setupUI() =
         with(binding) {//button_mild id becomes buttonMild here
+            reportTitle.text = SpannableStringBuilder(viewModel._selected_report_title.value)
+            description.text = SpannableStringBuilder(viewModel._selected_report_description.value)
+            
             buttonMild.setOnClickListener {
                 viewModel.setState(getString(R.string.button_mild))
             }
@@ -78,11 +90,15 @@ class UpdateReportFragment() : Fragment() {
                         imageName = viewModel._selected_report_filename.value ?: "",
                     )
 
+                    viewModel._selected_report_key.value = null
+
                     findNavController().navigate(R.id.action_update_to_main)
 
                 }
             }
         }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -22,7 +22,6 @@
         android:maxLines="3"
         android:text="@string/default_weather_text"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:textSize="24sp"
         android:layout_marginStart="110sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +30,9 @@
 
     <include
         android:id="@+id/content_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_text"
         layout="@layout/content_main" />
 
 
