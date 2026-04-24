@@ -40,6 +40,8 @@
 
     <string name="take_pic_button_text">Take picture</string>
 
+    <string name="default_weather_text">No location given</string>
+
 
     <string
         name="google_maps_key"

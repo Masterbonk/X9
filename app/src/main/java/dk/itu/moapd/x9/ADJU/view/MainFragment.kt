@@ -1,13 +1,10 @@
 package dk.itu.moapd.x9.ADJU.view
 
-import android.R.attr.contentDescription
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.fragment.app.Fragment
@@ -48,9 +44,7 @@ import dk.itu.moapd.x9.ADJU.viewmodel.MainUiState
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.flow.StateFlow
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import kotlin.js.ExperimentalJsFileName
 
 /**
  * A simple [androidx.fragment.app.Fragment] subclass.

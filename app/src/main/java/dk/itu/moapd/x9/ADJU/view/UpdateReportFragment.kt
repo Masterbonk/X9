@@ -78,7 +78,7 @@ class UpdateReportFragment() : Fragment() {
                         imageName = viewModel._selected_report_filename.value ?: "",
                     )
 
-                    findNavController().navigate(R.id.action_report_to_main)
+                    findNavController().navigate(R.id.action_update_to_main)
 
                 }
             }
