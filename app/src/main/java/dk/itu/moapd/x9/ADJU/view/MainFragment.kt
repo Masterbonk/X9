@@ -45,6 +45,7 @@ import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.setValue
+import dk.itu.moapd.x9.ADJU.core.FIREBASE_STORAGE
 
 /**
  * A simple [androidx.fragment.app.Fragment] subclass.
@@ -89,13 +90,10 @@ class MainFragment : Fragment() {
     ) {
         val state by uiState.collectAsState()
 
-
-
         Scaffold() {
             innerPadding ->
             LazyColumn(
                 modifier = Modifier.Companion
-                    .fillMaxWidth()
                     .padding(innerPadding)
             ) {
                 items(state.reports, key = { it.key }) { item ->
@@ -126,16 +124,18 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun editReport(key: String, lat: Double, lng: Double, fileName: String){
+    fun editReport(key: String, lat: Double, lng: Double, fileName: String, title: String, description: String){
         viewModel._selected_report_key.value = key
         viewModel._selected_report_lat.value = lat
         viewModel._selected_report_lng.value = lng
         viewModel._selected_report_filename.value = fileName
+        viewModel._selected_report_title.value = title
+        viewModel._selected_report_description.value = description
+
         findNavController().navigate(R.id.action_main_to_update)
     }
 
     fun goToMap(lat: Double, lng: Double, title: String){
-        //viewModel._selected_report_key.value = key
         viewModel._selected_report_lat.value = lat
         viewModel._selected_report_lng.value = lng
         viewModel._selected_report_title.value = title
@@ -161,7 +161,7 @@ class MainFragment : Fragment() {
                     style = MaterialTheme.typography.titleLarge
                 )
                 Column() {
-                    IconButton(onClick = { editReport(model.key, model.latitude, model.longtitude, model.filename) }) {
+                    IconButton(onClick = { editReport(model.key, model.latitude, model.longtitude, model.filename, model.title, model.description) }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit"
@@ -212,6 +212,7 @@ private fun FirebaseStorageImage(
             return@LaunchedEffect
         }
 
+        val ref = Firebase.storage(FIREBASE_STORAGE).reference.child(path)
         ref.downloadUrl
             .addOnSuccessListener { downloadUrl ->
                 val resolvedUrl = downloadUrl.toString()

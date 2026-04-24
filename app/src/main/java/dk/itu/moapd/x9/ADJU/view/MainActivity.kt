@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +36,7 @@ import com.google.firebase.database.database
 import dk.itu.moapd.x9.ADJU.view.LoginActivity
 import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.core.DATABASE_URL
+import dk.itu.moapd.x9.ADJU.core.WEATHER_API_KEY
 import dk.itu.moapd.x9.ADJU.databinding.ActivityMainBinding
 import dk.itu.moapd.x9.ADJU.service.LocationService
 import org.json.JSONObject
@@ -57,10 +59,12 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val TAG = MainActivity::class.qualifiedName
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -166,7 +170,7 @@ class MainActivity : AppCompatActivity() {
                 if (location != null) {
                     val latitude = location.latitude
                     val longitude = location.longitude
-                    val weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API_KEY"
+                    val weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$WEATHER_API_KEY"
                     // Debugging: Log URL
                     println("Weather API URL: $weatherUrl")
 
