@@ -52,7 +52,7 @@ class UpdateReportFragment() : Fragment() {
         with(binding) {//button_mild id becomes buttonMild here
             reportTitle.text = SpannableStringBuilder(viewModel._selected_report_title.value)
             description.text = SpannableStringBuilder(viewModel._selected_report_description.value)
-            
+
             buttonMild.setOnClickListener {
                 viewModel.setState(getString(R.string.button_mild))
             }
