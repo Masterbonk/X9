@@ -35,11 +35,11 @@ class UpdateReportFragment() : Fragment() {
     ): View? {
 
         _binding = FragmentUpdateReportBinding.inflate(inflater, container, false)
-        setupUI()
 
         if (viewModel._selected_report_key.value == null){
             findNavController().navigate(R.id.action_update_to_main)
         }
+        setupUI()
 
 
         Log.d(TAG, "onCreateView() method called.")
@@ -50,8 +50,9 @@ class UpdateReportFragment() : Fragment() {
 
     private fun setupUI() =
         with(binding) {//button_mild id becomes buttonMild here
-            reportTitle.text = SpannableStringBuilder(viewModel._selected_report_title.value)
-            description.text = SpannableStringBuilder(viewModel._selected_report_description.value)
+
+            reportTitle.text = SpannableStringBuilder(viewModel._selected_report_title.value?:"")
+            description.text = SpannableStringBuilder(viewModel._selected_report_description.value?:"")
 
             buttonMild.setOnClickListener {
                 viewModel.setState(getString(R.string.button_mild))
