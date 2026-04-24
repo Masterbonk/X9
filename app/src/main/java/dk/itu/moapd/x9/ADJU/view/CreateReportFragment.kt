@@ -109,10 +109,6 @@ open class CreateReportFragment : Fragment() {
             buttonTakePic.setOnClickListener {
                 //Get permission & take picture
                 checkCameraPermissionAndOpen()
-
-                if (capturedImageUri != null){ //Not working ;(
-                    binding.picture.setImageURI(capturedImageUri)
-                }
             }
 
             buttonSend.setOnClickListener {

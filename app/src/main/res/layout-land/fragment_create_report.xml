@@ -9,14 +9,13 @@
     tools:context=".view.CreateReportFragment"
     android:theme="@style/Theme.AppCompat">
 
-
     <TextView
-        android:id="@+id/update_title"
+        android:id="@+id/make_title"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:text="@string/update_report_text"
+        android:text="@string/create_report_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,11 +29,12 @@
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:hint="@string/report_title_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_title"
+        app:layout_constraintTop_toBottomOf="@+id/make_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-        <EditText
+
+    <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,12 +50,11 @@
         android:id="@+id/button_mild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text="@string/button_mild"
         android:textColor="@color/light_green"
         tools:ignore="ButtonStyle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_sever"
+        app:layout_constraintEnd_toStartOf="@id/button_sever"
         app:layout_constraintTop_toBottomOf="@+id/description"
         app:layout_constraintHorizontal_chainStyle="packed"/>
 
@@ -65,10 +64,11 @@
         android:layout_height="wrap_content"
         android:text="@string/button_sever"
         android:textColor="@color/light_green"
-        tools:ignore="ButtonStyle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_mild"
         app:layout_constraintEnd_toStartOf="@id/button_emergency"
-        app:layout_constraintTop_toTopOf="@+id/button_mild" />
+        app:layout_constraintTop_toTopOf="@+id/button_mild"
+        tools:ignore="ButtonStyle" />
 
     <Button
         android:id="@+id/button_emergency"
@@ -77,20 +77,31 @@
         android:text="@string/button_emergency"
         android:textColor="@color/light_green"
         tools:ignore="ButtonStyle"
-        app:layout_constraintStart_toEndOf="@id/button_sever"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_take_pic"
+        app:layout_constraintStart_toEndOf="@+id/button_sever"
         app:layout_constraintTop_toTopOf="@+id/button_mild" />
 
     <Button
-        android:id="@+id/button_update"
+        android:id="@+id/button_take_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_update"
+        android:text="@string/take_pic_button_text"
         android:textColor="@color/light_green"
         tools:ignore="ButtonStyle"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_emergency"
+        app:layout_constraintEnd_toStartOf="@id/button_send"
+        app:layout_constraintTop_toTopOf="@+id/button_emergency" />
+
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:textColor="@color/light_green"
+        tools:ignore="ButtonStyle"
+        app:layout_constraintStart_toEndOf="@+id/button_take_pic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_emergency" />
+        app:layout_constraintTop_toTopOf="@+id/button_emergency" />
 
 
 

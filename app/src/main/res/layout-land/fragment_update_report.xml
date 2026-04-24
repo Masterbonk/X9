@@ -78,7 +78,7 @@
         android:textColor="@color/light_green"
         tools:ignore="ButtonStyle"
         app:layout_constraintStart_toEndOf="@id/button_sever"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_update"
         app:layout_constraintTop_toTopOf="@+id/button_mild" />
 
     <Button
@@ -88,9 +88,9 @@
         android:text="@string/button_update"
         android:textColor="@color/light_green"
         tools:ignore="ButtonStyle"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_emergency"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_emergency" />
+        app:layout_constraintTop_toTopOf="@+id/button_emergency" />
 
 
 
