@@ -7,6 +7,7 @@
     <string name="button_sever">Sever</string>
     <string name="button_emergency">Emergency</string>
     <string name="button_send">Send</string>
+    <string name="button_ask_permission">Ask for location permission</string>
 
     <string name="button_goto_report">New report</string>
     <string name="button_goto_main">Back to main</string>

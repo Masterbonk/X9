@@ -9,18 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.core.app.ActivityCompat
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -29,16 +22,10 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.database
-import dk.itu.moapd.x9.ADJU.view.LoginActivity
 import dk.itu.moapd.x9.ADJU.R
-import dk.itu.moapd.x9.ADJU.core.DATABASE_URL
 import dk.itu.moapd.x9.ADJU.core.WEATHER_API_KEY
 import dk.itu.moapd.x9.ADJU.databinding.ActivityMainBinding
-import dk.itu.moapd.x9.ADJU.service.LocationService
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
@@ -50,8 +37,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private var hasPermission: Boolean = false
-
-    //private val viewModel: MainViewModel by viewModels()
 
     private lateinit var auth: FirebaseAuth
 
@@ -152,10 +137,6 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.RequestPermission()
         ) { granted ->
             hasPermission = granted
-
-            if (!granted) {
-                // Handle denial (snackbar, toast, etc.)
-            }
         }
 
         if (!hasPermission) {
@@ -209,24 +190,5 @@ class MainActivity : AppCompatActivity() {
             })
 
         queue.add(request)
-    }
-
-    @SuppressLint("MissingPermission") // safe because you already checked
-    private fun getLocationOnce() {
-        fusedLocationClient
-            .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener { location ->
-                if (location != null) {
-                    val lat = location.latitude
-                    val lng = location.longitude
-
-                    Log.d("LOCATION", "Lat: $lat, Lng: $lng")
-                } else {
-                    Log.d("LOCATION", "Location is null")
-                }
-            }
-            .addOnFailureListener { e ->
-                e.printStackTrace()
-            }
     }
 }
