@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -39,13 +40,12 @@ import coil.compose.AsyncImage
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import dk.itu.moapd.x9.ADJU.R
+import dk.itu.moapd.x9.ADJU.core.FIREBASE_STORAGE
 import dk.itu.moapd.x9.ADJU.databinding.FragmentMainBinding
 import dk.itu.moapd.x9.ADJU.viewmodel.MainUiState
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportUi
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
 import kotlinx.coroutines.flow.StateFlow
-import androidx.compose.runtime.setValue
-import dk.itu.moapd.x9.ADJU.core.FIREBASE_STORAGE
 
 /**
  * A simple [androidx.fragment.app.Fragment] subclass.

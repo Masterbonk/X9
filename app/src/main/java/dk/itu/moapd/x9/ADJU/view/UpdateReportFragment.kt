@@ -1,7 +1,6 @@
 package dk.itu.moapd.x9.ADJU.view
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import dk.itu.moapd.x9.ADJU.R
 import dk.itu.moapd.x9.ADJU.databinding.FragmentUpdateReportBinding
 import dk.itu.moapd.x9.ADJU.showToast
 import dk.itu.moapd.x9.ADJU.viewmodel.ReportViewModel
-import kotlin.getValue
 
 class UpdateReportFragment() : Fragment() {
 

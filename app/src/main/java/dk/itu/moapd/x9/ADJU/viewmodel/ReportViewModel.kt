@@ -1,6 +1,5 @@
 package dk.itu.moapd.x9.ADJU.viewmodel
 
-import android.R
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,15 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import dk.itu.moapd.x9.ADJU.data.ReportRepository
 import dk.itu.moapd.x9.ADJU.model.TrafficReport
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.Long
-import kotlin.String
 
 data class  ReportUi(
     val key: String,

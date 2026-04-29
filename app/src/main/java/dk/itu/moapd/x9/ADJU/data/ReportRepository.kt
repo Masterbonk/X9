@@ -1,23 +1,17 @@
 package dk.itu.moapd.x9.ADJU.data
 
-import android.R
 import android.net.Uri
-import androidx.compose.runtime.LaunchedEffect
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.database
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import dk.itu.moapd.x9.ADJU.core.DATABASE_URL
 import dk.itu.moapd.x9.ADJU.core.FIREBASE_STORAGE
-import dk.itu.moapd.x9.ADJU.mapper.fieldsFromLocation
-import dk.itu.moapd.x9.ADJU.model.CurrentLocation
 import dk.itu.moapd.x9.ADJU.model.TrafficReport
-import dk.itu.moapd.x9.ADJU.state.rememberTrackingEnabledState
 import java.util.UUID
 
 //Code taken from https://github.com/fabricionarcizo/moapd2026/blob/main/lecture08/08-2_RealtimeDatabase-MDC/app/src/main/java/dk/itu/moapd/realtimedatabase/data/repository/DummyRepository.kt

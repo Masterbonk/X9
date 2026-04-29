@@ -1,7 +1,6 @@
 package dk.itu.moapd.x9.ADJU.core.preferences
 
 import android.content.Context
-import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.edit
 import dk.itu.moapd.x9.ADJU.R
 
