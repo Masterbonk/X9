@@ -112,9 +112,19 @@ open class CreateReportFragment : Fragment() {
             }
 
             buttonSend.setOnClickListener {
+                var hasPermission = ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+
+
                 if (reportTitle.text.toString() == "" || description.text.toString() == "" || reportTitle.text.length > 60) {
                     showToast("Output invalid")
-                } else {
+                } else if(!hasPermission){
+                    showToast("Getting permission")
+                    pendingLocationRequest = true
+                    permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }else {
                     requestOrGetLocation()
                 }
             }
