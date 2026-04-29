@@ -6,5 +6,8 @@
     </style>
 
     <style name="Theme.X9" parent="Base.Theme.X9" />
-    <style name="Theme.FirebaseAuthentication" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.FirebaseAuthentication" parent="android:Theme.Material.Light.NoActionBar" >
+        <item name="android:textColorHint">#808080</item>
+        <item name="android:backgroundTint">#7C7C7C</item>
+    </style>
 </resources>
