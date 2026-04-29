@@ -215,12 +215,6 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
     @Composable
     private fun map(){
         val context = LocalContext.current
-        //val snackbarHostState = remember { SnackbarHostState() }
-
-
-
-        val scope = rememberCoroutineScope()
-        val permissionDeniedMsg = stringResource(R.string.permission_denied_message)
 
         val startLocation = remember { LatLng(viewModel._selected_report_lat.value ?: 55.6596, viewModel._selected_report_lng.value ?: 12.5910) }
 
@@ -262,7 +256,6 @@ class MapFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
         val reports by viewModel.reports.collectAsState()
 
         Scaffold(
-            //snackbarHost = { SnackbarHost(snackbarHostState) },
         ) { padding ->
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
